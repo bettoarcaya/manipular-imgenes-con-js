@@ -21,7 +21,6 @@
     
     let canvas = document.getElementById("lienzo");
     canvas.addEventListener('mousemove', mouseHover);
-    canvas.addEventListener('mousemove', mouseZoom);
     let cntx = canvas.getContext("2d");
     let len;
     
@@ -95,6 +94,10 @@
       zoomctx.drawImage(canvas, Math.abs(x), Math.abs(y), 100, 100, 0, 0, 300, 300);
     }
 
+    function activarZoom(){
+      canvas.addEventListener('mousemove', mouseZoom);
+    }
+
     
 
   </script> 
@@ -111,6 +114,7 @@
   <input type="button" name="submit" value="Submit" onclick="encriptar();">
   <input type="button" name="mostrar" value="mostrar" onclick="mostrarPixeles();">
   <input type="button" name="desencriptar" value="desencriptar" onclick="desencriptar();">
+  <input type="button" name="zoom" value="activar Zoom" onclick="activarZoom();">
   
 
 
