@@ -10,13 +10,11 @@
   <!-- canvas para la imagen a cargar -->
   <canvas id="lienzo" width="1024" height="647" style="border: 1px solid red;">
     El navegador no soporta canvas!
-  </canvas>
+  </canvas>  
   <!-- canvas para el zoom -->
   <canvas id="zoom" width="300" height="300" style="border-radius: 100%;" >
     El navegador no soporta canvas!
   </canvas>
-  
-
   <!--script start-->
 
   <script>
@@ -25,6 +23,7 @@
     canvas.addEventListener('mousemove', mouseHover);
     canvas.addEventListener('mousemove', mouseZoom);
     let cntx = canvas.getContext("2d");
+    let len;
     
     /**obtenemos el nombre de la imagen cargada desde el input */
     function nombre(fic) {
@@ -44,9 +43,11 @@
     function encriptar(){
       let msj = document.getElementById("mensaje").value;
       let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
-      for(i = 3, cnt = 0; cnt < msj.length; cnt++, i += 4){
+      len = msj.length;
+      for(i = 3, cnt = 0; cnt < len; cnt++, i += 4){
         imgData.data[i*100] = msj.charCodeAt(cnt);
       }
+      
       cntx.putImageData(imgData, 0, 0);
     }
 
@@ -54,13 +55,12 @@
     function desencriptar(){
       let msj = "";
       let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
-      for(i = 3; i < imgData.data.length; i += 4){
+      for(i = 3, cnt = 0; cnt < len; cnt++, i += 4){
           if(imgData.data[i*100] != 255){
             msj+=String.fromCharCode(imgData.data[i*100]);
           }
       }
       mensajeDiv.textContent = msj;
-      console.log(msj);
     }
 
     /**cambia el color del pixel donde se encuentra una letra encriptada */
@@ -105,7 +105,8 @@
   <input type="button" name="cargar" value="cargar" onclick="cargarImg();">
   <br> <br>
   <textarea id="mensaje" placeholder="Escriba su msj para encriptar aqui!" rows="10" cols="50"></textarea>
-  <div id="mensajeDiv"></div>
+  <textarea id="mensajeD" rows="10" cols="50" placeholder="Mensaje desencriptado"></textarea>
+  <div id="mensajeDiv" ></div>
   <br>
   <input type="button" name="submit" value="Submit" onclick="encriptar();">
   <input type="button" name="mostrar" value="mostrar" onclick="mostrarPixeles();">
