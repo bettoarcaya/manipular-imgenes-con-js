@@ -8,11 +8,11 @@
 </head>
 <body>
   <!-- canvas para la imagen a cargar -->
-  <canvas id="lienzo" width="1024" height="647" style="border: 1px solid red;">
+  <canvas id="lienzo" width="900" height="647" style="border: 1px solid red;">
     El navegador no soporta canvas!
   </canvas>  
   <!-- canvas para el zoom -->
-  <canvas id="zoom" width="300" height="300" style="border-radius: 100%;" >
+  <canvas id="zoom" width="400" height="647" style="" >
     El navegador no soporta canvas!
   </canvas>
   <!--script start-->
@@ -91,7 +91,7 @@
       let zoomctx = document.getElementById('zoom').getContext('2d');
       let x = event.layerX - 50;
       let y = event.layerY - 50;
-      zoomctx.drawImage(canvas, Math.abs(x), Math.abs(y), 100, 100, 0, 0, 300, 300);
+      zoomctx.drawImage(canvas, Math.abs(x), Math.abs(y), 100, 100, 0, 0, 400, 647);
     }
 
     function activarZoom(){
