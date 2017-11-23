@@ -11,9 +11,15 @@
   <canvas id="lienzo" width="1024" height="647" style="border: 1px solid red;">
     El navegador no soporta canvas!
   </canvas>
+  <div id="colorDiv" style="width: 200px; height: 50px; border: 1px solid red;"></div>
+  <div id="rgbDiv" style="width: 200px; height: 50px; border: 1px solid red;"></div>
+
+  <!--script start-->
+
   <script>
     
     let canvas = document.getElementById("lienzo");
+    canvas.addEventListener('mousemove', mouseHover);
     let cntx = canvas.getContext("2d");
     
     /**obtenemos el nombre de la imagen cargada desde el input */
@@ -28,15 +34,48 @@
       img.src = name;
       img.onload = function(){ cntx.drawImage(img, 0, 0); }
       let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
+      /*console.log(imgData.data[0], imgData.data[1], imgData.data[2], imgData.data[3]);
+      console.log(imgData.data.length/4);*/
+      
+    }
+
+    /**encriptamos el mensaje escrito por el usuario */
+    function encriptar(){
+      let msj = document.getElementById("mensaje").value;
+      let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
+      for(i = 3, cnt = 0; cnt < msj.length; cnt++, i += 4){
+        imgData.data[i] = msj.charCodeAt(cnt);
+      }
+      cntx.putImageData(imgData, 0, 0);
+    }
+
+    function desencriptar(){
+      let msj;
+    }
+
+    /**obtenemos y mostramos el color y la cantidad de rgb por donde pasa el mouse */
+    function mouseHover(event){
+      let x = event.layerX;
+      let y = event.layerY;
+      let pix = cntx.getImageData(x, y, canvas.width, canvas.height);
+      let rgba = 'rgba('+ pix.data[0] + ',' + pix.data[1] + ',' + pix.data[2] + ',' + pix.data[3] + ')';
+      colorDiv.style.background = rgba;
+      rgbDiv.textContent = rgba;
     }
 
     
 
-  </script>  
+  </script> 
+  <!-- script ends --> 
   <br>
   <input id="pick" type="file" name="" value="" accept=".jpg" onchange="nombre(this.value)">
   <!--br-->
   <input type="button" name="" value="cargar" onclick="cargarImg();">
+  <br> <br>
+  <textarea id="mensaje" maxlength="100" placeholder="Escriba su msj para encriptar aqui!" rows="10" cols="50"></textarea>
+  <br>
+  <input type="button" name="submit" value="Submit" onclick="encriptar();">
+  
 
 
   <!--script type="text/javascript" src="js/scripts.js" ></script-->
