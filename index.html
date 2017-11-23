@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
   <title>Encriptador</title>
   
 </head>
 <body>
-  <img src="pc.jpg" width="1024" height="647" alt="">
+  <!--img id="imagen" src="pc.jpg" width="1024" height="647" alt=""-->
   <canvas id="lienzo" width="1024" height="647" style="border: 1px solid red;">
     El navegador no soporta canvas!
   </canvas>
+  <script>
+    
+    let canvas = document.getElementById("lienzo");
+    let cntx = canvas.getContext("2d");
+    
+    /**obtenemos el nombre de la imagen cargada desde el input */
+    function nombre(fic) {
+      fic = fic.split('\\');
+      name = fic[fic.length-1];
+    }
+
+    /**cargamos la imagen en el canvas */
+    function cargarImg() {
+      img = new Image();
+      img.src = name;
+      img.onload = function(){ cntx.drawImage(img, 0, 0); }
+      let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
+    }
+
+    
+
+  </script>  
   <br>
   <input id="pick" type="file" name="" value="" accept=".jpg" onchange="nombre(this.value)">
   <!--br-->
   <input type="button" name="" value="cargar" onclick="cargarImg();">
-  <br>
-  <input type="" name="" value="">
 
 
-  <script type="text/javascript" src="js/scripts.js" ></script>
+  <!--script type="text/javascript" src="js/scripts.js" ></script-->
 </body>
 </html>
