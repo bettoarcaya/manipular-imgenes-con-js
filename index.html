@@ -12,7 +12,7 @@
     El navegador no soporta canvas!
   </canvas>
   <!-- canvas para el zoom -->
-  <canvas id="zoom" width="300" height="300">
+  <canvas id="zoom" width="300" height="300" style="border-radius: 100%;" >
     El navegador no soporta canvas!
   </canvas>
   
@@ -23,9 +23,8 @@
     
     let canvas = document.getElementById("lienzo");
     canvas.addEventListener('mousemove', mouseHover);
-    canvas.addEventListener('mousemove', zoom);
+    canvas.addEventListener('mousemove', mouseZoom);
     let cntx = canvas.getContext("2d");
-    let datos = cntx.getImageData(0, 0, canvas.width, canvas.height);
     
     /**obtenemos el nombre de la imagen cargada desde el input */
     function nombre(fic) {
@@ -89,7 +88,7 @@
     }
     
     /**hacemos zoom de la parte por donde pasa el puntero del mouse */
-    function zoom(event){
+    function mouseZoom(event){
       let zoomctx = document.getElementById('zoom').getContext('2d');
       let x = event.layerX - 50;
       let y = event.layerY - 50;
