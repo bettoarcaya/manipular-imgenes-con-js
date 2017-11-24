@@ -12,7 +12,7 @@
     El navegador no soporta canvas!
   </canvas>
   <!-- canvas para el zoom -->
-  <canvas id="zoom" width="300" height="227">
+  <canvas id="zoom" width="300" height="300">
     El navegador no soporta canvas!
   </canvas>
   
@@ -25,6 +25,7 @@
     canvas.addEventListener('mousemove', mouseHover);
     canvas.addEventListener('mousemove', zoom);
     let cntx = canvas.getContext("2d");
+    let datos = cntx.getImageData(0, 0, canvas.width, canvas.height);
     
     /**obtenemos el nombre de la imagen cargada desde el input */
     function nombre(fic) {
@@ -52,7 +53,15 @@
 
     /**desencriptamos el mensaje oculto en la imagen */
     function desencriptar(){
-      let msj;
+      let msj = "";
+      let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
+      for(i = 3; i < imgData.data.length; i += 4){
+          if(imgData.data[i*100] != 255){
+            msj+=String.fromCharCode(imgData.data[i*100]);
+          }
+      }
+      mensajeDiv.textContent = msj;
+      console.log(msj);
     }
 
     /**cambia el color del pixel donde se encuentra una letra encriptada */
@@ -66,9 +75,7 @@
           imgData.data[i-1] = 0;
         }
       }
-
       cntx.putImageData(imgData, 0, 0);
-
     }
 
     /**obtenemos y mostramos el color y la cantidad de rgb por donde pasa el mouse */
@@ -99,9 +106,11 @@
   <input type="button" name="cargar" value="cargar" onclick="cargarImg();">
   <br> <br>
   <textarea id="mensaje" placeholder="Escriba su msj para encriptar aqui!" rows="10" cols="50"></textarea>
+  <div id="mensajeDiv"></div>
   <br>
   <input type="button" name="submit" value="Submit" onclick="encriptar();">
   <input type="button" name="mostrar" value="mostrar" onclick="mostrarPixeles();">
+  <input type="button" name="desencriptar" value="desencriptar" onclick="desencriptar();">
   
 
 
