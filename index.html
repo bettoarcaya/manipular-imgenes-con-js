@@ -11,8 +11,8 @@
   <canvas id="lienzo" width="1024" height="647" style="border: 1px solid red;">
     El navegador no soporta canvas!
   </canvas>
-  <div id="colorDiv" style="width: 200px; height: 50px; border: 1px solid red;"></div>
-  <div id="rgbDiv" style="width: 200px; height: 50px; border: 1px solid red;"></div>
+  <canvas id="zoom" width="300" height="227"></canvas>
+  
 
   <!--script start-->
 
@@ -20,6 +20,7 @@
     
     let canvas = document.getElementById("lienzo");
     canvas.addEventListener('mousemove', mouseHover);
+    canvas.addEventListener('mousemove', zoom);
     let cntx = canvas.getContext("2d");
     
     /**obtenemos el nombre de la imagen cargada desde el input */
@@ -34,9 +35,6 @@
       img.src = name;
       img.onload = function(){ cntx.drawImage(img, 0, 0); }
       let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
-      /*console.log(imgData.data[0], imgData.data[1], imgData.data[2], imgData.data[3]);
-      console.log(imgData.data.length/4);*/
-      
     }
 
     /**encriptamos el mensaje escrito por el usuario */
@@ -49,6 +47,7 @@
       cntx.putImageData(imgData, 0, 0);
     }
 
+    /**desencriptamos el mensaje oculto en la imagen */
     function desencriptar(){
       let msj;
     }
@@ -62,15 +61,22 @@
       colorDiv.style.background = rgba;
       rgbDiv.textContent = rgba;
     }
+    
+    function zoom(event){
+      let zoomctx = document.getElementById('zoom').getContext('2d');
+      let x = event.layerX - 50;
+      let y = event.layerY - 50;
+      zoomctx.drawImage(canvas, Math.abs(x), Math.abs(y), 100, 100, 0, 0, 300, 300);
+    }
 
     
 
   </script> 
-  <!-- script ends --> 
-  <br>
-  <input id="pick" type="file" name="" value="" accept=".jpg" onchange="nombre(this.value)">
-  <!--br-->
-  <input type="button" name="" value="cargar" onclick="cargarImg();">
+  
+  <div id="colorDiv" style="width: 200px; height: 50px; border: 1px solid red;"></div>
+  <div id="rgbDiv" style="width: 200px; height: 50px; border: 1px solid red;"></div>
+  <input id="pick" type="file" name="file" accept=".jpg" onchange="nombre(this.value)">
+  <input type="button" name="cargar" value="cargar" onclick="cargarImg();">
   <br> <br>
   <textarea id="mensaje" maxlength="100" placeholder="Escriba su msj para encriptar aqui!" rows="10" cols="50"></textarea>
   <br>
