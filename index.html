@@ -23,6 +23,7 @@
     canvas.addEventListener('mousemove', mouseHover);
     let cntx = canvas.getContext("2d");
     let len;
+    let name = "";
     
     /**obtenemos el nombre de la imagen cargada desde el input */
     function nombre(fic) {
@@ -40,26 +41,31 @@
 
     /**encriptamos el mensaje escrito por el usuario */
     function encriptar(){
-      let msj = document.getElementById("mensaje").value;
-      let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
-      len = msj.length;
-      for(i = 3, cnt = 0; cnt < len; cnt++, i += 4){
-        imgData.data[i*100] = msj.charCodeAt(cnt);
+      if(name != ""){
+        let msj = document.getElementById("mensaje").value;
+        let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
+        len = msj.length;
+        for(i = 3, cnt = 0; cnt < len; cnt++, i += 512){
+          imgData.data[i] = msj.charCodeAt(cnt) + 130;
+        }
+        cntx.putImageData(imgData, 0, 0);
+      }else{
+        alert("debe cargar una img en donde encriptar el msj");
       }
       
-      cntx.putImageData(imgData, 0, 0);
     }
 
     /**desencriptamos el mensaje oculto en la imagen */
     function desencriptar(){
       let msj = "";
       let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
-      for(i = 3, cnt = 0; cnt < len; cnt++, i += 4){
-          if(imgData.data[i*100] != 255){
-            msj+=String.fromCharCode(imgData.data[i*100]);
+      for(i = 3, cnt = 0; cnt < len; cnt++, i += 512){
+          if(imgData.data[i] != 255){
+            ascii = imgData.data[i] - 130;
+            msj += String.fromCharCode(ascii);
           }
       }
-      mensajeDiv.textContent = msj;
+      document.getElementById ("mensajeD").value = msj;
     }
 
     /**cambia el color del pixel donde se encuentra una letra encriptada */
@@ -94,11 +100,10 @@
       zoomctx.drawImage(canvas, Math.abs(x), Math.abs(y), 100, 100, 0, 0, 400, 647);
     }
 
+    /**funcion que activa evento para mostrar el zoom de la imagen */
     function activarZoom(){
       canvas.addEventListener('mousemove', mouseZoom);
     }
-
-    
 
   </script> 
   
@@ -108,16 +113,12 @@
   <input type="button" name="cargar" value="cargar" onclick="cargarImg();">
   <br> <br>
   <textarea id="mensaje" placeholder="Escriba su msj para encriptar aqui!" rows="10" cols="50"></textarea>
-  <textarea id="mensajeD" rows="10" cols="50" placeholder="Mensaje desencriptado"></textarea>
-  <div id="mensajeDiv" ></div>
+  <textarea id="mensajeD" readonly rows="10" cols="50" placeholder="Mensaje desencriptado"></textarea>
   <br>
   <input type="button" name="submit" value="Submit" onclick="encriptar();">
   <input type="button" name="mostrar" value="mostrar" onclick="mostrarPixeles();">
   <input type="button" name="desencriptar" value="desencriptar" onclick="desencriptar();">
   <input type="button" name="zoom" value="activar Zoom" onclick="activarZoom();">
   
-
-
-  <!--script type="text/javascript" src="js/scripts.js" ></script-->
 </body>
 </html>
