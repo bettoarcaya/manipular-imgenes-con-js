@@ -36,7 +36,6 @@
       img = new Image();
       img.src = name;
       img.onload = function(){ cntx.drawImage(img, 0, 0); }
-      let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
     }
 
     /**encriptamos el mensaje escrito por el usuario */
@@ -60,10 +59,7 @@
       let msj = "";
       let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
       for(i = 3, cnt = 0; cnt < len; cnt++, i += 512){
-          if(imgData.data[i] != 255){
-            ascii = imgData.data[i] - 130;
-            msj += String.fromCharCode(ascii);
-          }
+          msj += String.fromCharCode(imgData.data[i] - 130);
       }
       document.getElementById ("mensajeD").value = msj;
     }
