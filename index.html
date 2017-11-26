@@ -41,7 +41,7 @@
 
     /**encriptamos el mensaje escrito por el usuario */
     function encriptar(){
-      if(name != ""){
+      if(name != ""){// validamos que el usuario cargo la img donde se encriptara el msj
         let msj = document.getElementById("mensaje").value;
         let imgData = cntx.getImageData(0, 0, canvas.width, canvas.height);
         len = msj.length;
