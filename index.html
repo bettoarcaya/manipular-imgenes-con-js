@@ -108,7 +108,7 @@
   <input id="pick" type="file" name="file" accept=".jpg" onchange="nombre(this.value)">
   <input type="button" name="cargar" value="cargar" onclick="cargarImg();">
   <br> <br>
-  <textarea id="mensaje" placeholder="Escriba su msj para encriptar aqui!" rows="10" cols="50"></textarea>
+  <textarea id="mensaje" maxlength="1000" placeholder="Escriba su msj para encriptar aqui!" rows="10" cols="50"></textarea>
   <textarea id="mensajeD" readonly rows="10" cols="50" placeholder="Mensaje desencriptado"></textarea>
   <br>
   <input type="button" name="submit" value="Submit" onclick="encriptar();">
